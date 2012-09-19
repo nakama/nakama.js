@@ -1,0 +1,17 @@
+{
+  "name": "nakama-js",
+  "version": "0.0.1",
+  "engines": {
+    "node": "v0.8.x"
+  },
+  "authors": [
+    "Chris Abrams <mail@chrisabrams.com>"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "1.4.0",
+    "request": "2.11.4",
+    "should": "1.1.0",
+    "uglify-js": "1.3.3"
+  }
+}
