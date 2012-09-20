@@ -1,24 +1,16 @@
-Nakama.Ajax = function(path, callback) {
+Nakama.Ajax = function(options, callback) {
 
-	//Make ajax request in browser
-	if(typeof window !== "undefined" && window.XMLHttpRequest) {
-		var xmlhttp = new XMLHttpRequest();
+	if(typeof window === "undefined") {
+		var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+	}
 
-		xmlhttp.onreadystatechange = function() {
-			if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				if(typeof callback === "function") callback(xmlhttp);
-			}
+	var xmlhttp = new XMLHttpRequest();
+
+	xmlhttp.onreadystatechange = function() {
+		if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			if(typeof callback === "function") callback(xmlhttp);
 		}
-		xmlhttp.open("GET", path, true);
-		xmlhttp.send();
 	}
-
-	//Make ajax call in node
-	else {
-		var request = require('request');
-console.log(path)
-		request({uri: path}, function (error, response, body) {
-			if(typeof callback === "function") callback(body, error);
-		});
-	}
+	xmlhttp.open("GET", options.url, true);
+	xmlhttp.send();
 };

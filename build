@@ -19,6 +19,7 @@ function concat(fileList, distPath) {
 }
 
 concat([
+    './libs/q.min.js',
     './src/Index.js',
     './src/Ajax/Index.js',
     './src/Config/Index.js',
