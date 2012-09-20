@@ -25,7 +25,8 @@ concat([
     './src/Config/Index.js',
     './src/Debug/Index.js',
     './src/App/Index.js',
-    './src/Photo/Index.js'
+    './src/Photo/Index.js',
+    './src/Photo/Create.js'
 ], DIST_FILE_PATH);
 
 /**

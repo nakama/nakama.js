@@ -8,22 +8,20 @@ Nakama.Photo = function(config, callback) {
 	config = (config || {});
 
 	//Check to see if photo ID was supplied
-	if(!config.id) {
-		_this.Debug("Please supply a photo ID.");
+	if(!config.uid) {
+		Nakama.Debug("Please supply a photo ID.");
 		return;
 	}
 
-	if(!Q) {var Q = require('q');}
 	var deferred = Q.defer();
 
-	Nakama.Ajax({url: Nakama.Config.url + '/photo/list/' + config.id}, function(res) {
+	Nakama.Ajax({url: Nakama.Config.url + '/photo/list/' + config.uid}, function(res) {
 		if(length === 2) {
 			if(typeof callback === "function") callback(res.responseText);
 		}
 
 		else {
 			deferred.resolve(res.responseText);
-			//console.log(deferred.resolve(res));
 		}
 	});	
 

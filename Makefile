@@ -6,7 +6,7 @@ test-photo:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 			--require should \
 			--reporter list \
-			--timeout 20000 \
+			--timeout 5000 \
 			--slow 20 \
 			--growl \
 			$(TEST_PHOTO)

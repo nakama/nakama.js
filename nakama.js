@@ -23,7 +23,15 @@ var Nakama = {};
 Nakama.version = "0.0.1";
 
 exports = module.exports = Nakama;
+
+if(!Q) {var Q = require('q');}
 Nakama.Ajax = function(options, callback) {
+
+	var async  = (options.async || true),
+		data   = (options.data || {}),
+		params = null,
+		type   = (options.type || "GET"),
+		url    = (options.url);
 
 	if(typeof window === "undefined") {
 		var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
@@ -34,10 +42,15 @@ Nakama.Ajax = function(options, callback) {
 	xmlhttp.onreadystatechange = function() {
 		if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 			if(typeof callback === "function") callback(xmlhttp);
-		}
+		}console.log(xmlhttp.status)
 	}
-	xmlhttp.open("GET", options.url, true);
-	xmlhttp.send();
+
+	xmlhttp.open(type, url, async);
+	if(type === "POST") {
+		xmlhttp.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+		data = JSON.stringify(data);
+	}console.log(data);
+	xmlhttp.send(data);
 };
 
 Nakama.Config = function(config) {
@@ -77,22 +90,20 @@ Nakama.Photo = function(config, callback) {
 	config = (config || {});
 
 	//Check to see if photo ID was supplied
-	if(!config.id) {
-		_this.Debug("Please supply a photo ID.");
+	if(!config.uid) {
+		Nakama.Debug("Please supply a photo ID.");
 		return;
 	}
 
-	if(!Q) {var Q = require('q');}
 	var deferred = Q.defer();
 
-	Nakama.Ajax({url: Nakama.Config.url + '/photo/list/' + config.id}, function(res) {
+	Nakama.Ajax({url: Nakama.Config.url + '/photo/list/' + config.uid}, function(res) {
 		if(length === 2) {
 			if(typeof callback === "function") callback(res.responseText);
 		}
 
 		else {
 			deferred.resolve(res.responseText);
-			//console.log(deferred.resolve(res));
 		}
 	});	
 
@@ -127,6 +138,35 @@ Nakama.Photo = function(config, callback) {
 		return value;
 	});*/
 	//return deferred.promise;
+
+	return deferred.promise;
+};
+
+/**
+ * Create new photo
+ */
+
+Nakama.Photo.create = function(options, callback) {
+	var _this   = this,
+		length  = arguments.length,
+		options = (options      || {}),
+		data    = (options.data || {});
+
+	var deferred = Q.defer();
+
+	Nakama.Ajax({
+		data: data,
+		type: "POST",
+		url: Nakama.Config.url + '/photo/add/' + options.uid
+	}, function(res) {
+		if(length === 2) {
+			if(typeof callback === "function") callback(res.responseText);
+		}
+
+		else {
+			deferred.resolve(res.responseText);
+		}
+	});
 
 	return deferred.promise;
 };

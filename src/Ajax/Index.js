@@ -1,5 +1,11 @@
 Nakama.Ajax = function(options, callback) {
 
+	var async  = (options.async || true),
+		data   = (options.data || {}),
+		params = null,
+		type   = (options.type || "GET"),
+		url    = (options.url);
+
 	if(typeof window === "undefined") {
 		var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 	}
@@ -11,6 +17,11 @@ Nakama.Ajax = function(options, callback) {
 			if(typeof callback === "function") callback(xmlhttp);
 		}
 	}
-	xmlhttp.open("GET", options.url, true);
-	xmlhttp.send();
+
+	xmlhttp.open(type, url, async);
+	if(type === "POST") {
+		xmlhttp.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+		data = JSON.stringify(data);
+	}
+	xmlhttp.send(data);
 };
