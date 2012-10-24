@@ -3,30 +3,30 @@ var Nakama  = require('../../nakama'),
 
 describe('Photo', function() {
 	describe('Get - async', function() {
-		it('Should be able to get a photo by user ID & photo ID', function(done) {
-			Nakama.Photo({uid: 23}, function(photo, err) {
-				if(!photo) {
+		it('Should be able to get all photos by user ID', function(done) {
+			Nakama.Photos({uid: 23}, function(photos, err) {
+				if(!photos) {
 					console.log("This is a test error");
 					console.log(err);
 				}
-				console.log("photo");
-				console.log(photo)
+				console.log("photos");
+				console.log(photos)
 				done();
 			});
 		});
 	});
 
 	describe('Get - deferred', function() {
-		it('Should be able to get a photo by user ID & photo ID', function(done) {
-			var getPhoto = new Nakama.Photo({uid: 23});
-			if(!getPhoto) {
+		it('Should be able to get all photos by user ID', function(done) {
+			var getPhotos = new Nakama.Photos({uid: 23});
+			if(!getPhotos) {
 				console.log("This is a test error");
 				console.log(err);
 			}
 
-			getPhoto.then(function(photo) {
+			getPhotos.then(function(photos) {
 				console.log("photo")
-				console.log(photo);
+				console.log(photos);
 				done();
 			});
 		});

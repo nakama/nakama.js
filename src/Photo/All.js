@@ -1,8 +1,8 @@
 /**
- * Photo Instance
+ * Get all photos
  */
 
-Nakama.Photo = function(options, callback) {
+Nakama.Photos = function(options, callback) {
 	var _this   = this,
 		length  = arguments.length,
 		options = (options || {});
